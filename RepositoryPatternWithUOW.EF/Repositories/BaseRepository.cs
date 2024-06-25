@@ -1,14 +1,14 @@
-﻿using App.Core.Consts;
-using App.Core.Interfaces;
-using App.EF.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using RepositoryPatternWithUOW.Core.Consts;
+using RepositoryPatternWithUOW.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace App.EF.Repositories
+namespace RepositoryPatternWithUOW.EF.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
@@ -88,9 +88,9 @@ namespace App.EF.Repositories
             if (take.HasValue)
                 query = query.Take(take.Value);
 
-            if (orderBy != null)
+            if(orderBy != null)
             {
-                if (orderByDirection == OrderBy.Ascending)
+                if(orderByDirection == OrderBy.Ascending)
                     query = query.OrderBy(orderBy);
                 else
                     query = query.OrderByDescending(orderBy);

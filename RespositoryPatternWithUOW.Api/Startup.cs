@@ -1,15 +1,23 @@
-using App.Core;
-using App.EF;
-using App.EF.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RepositoryPatternWithUOW.Core;
+using RepositoryPatternWithUOW.Core.Interfaces;
+using RepositoryPatternWithUOW.EF;
+using RepositoryPatternWithUOW.EF.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Api
+namespace RespositoryPatternWithUOW.Api
 {
     public class Startup
     {
@@ -25,11 +33,17 @@ namespace Api
         {
             services.AddControllers();
 
+            services.AddDbContext<ApplicationDbContext>(options => 
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
+            //services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RespositoryPatternWithUOW.Api", Version = "v1" });
             });
         }
 
@@ -40,7 +54,7 @@ namespace Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RespositoryPatternWithUOW.Api v1"));
             }
 
             app.UseHttpsRedirection();
