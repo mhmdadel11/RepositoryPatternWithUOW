@@ -1,28 +1,21 @@
-﻿using RepositoryPatternWithUOW.Core;
-using RepositoryPatternWithUOW.Core.Interfaces;
-using RepositoryPatternWithUOW.Core.Models;
-using RepositoryPatternWithUOW.EF.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using App.Core;
+using App.Core.Interfaces;
+using App.EF.Data;
+using App.EF.Repositories;
 
-namespace RepositoryPatternWithUOW.EF
+namespace App.EF
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
 
-        public IBaseRepository<Author> Authors { get; private set; }
-        public IBooksRepository Books { get; private set; }
+        public IUnitRepository Units { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
 
-            Authors = new BaseRepository<Author>(_context);
-            Books = new BooksRepository(_context);
+            Units = new UnitsRepository(_context);
         }
 
         public int Complete()

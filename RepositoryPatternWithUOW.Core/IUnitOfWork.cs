@@ -1,17 +1,11 @@
-﻿using RepositoryPatternWithUOW.Core.Interfaces;
-using RepositoryPatternWithUOW.Core.Models;
+﻿using App.Core.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RepositoryPatternWithUOW.Core
+namespace App.Core
 {
     public interface IUnitOfWork : IDisposable
     {
-        IBaseRepository<Author> Authors { get; }
-        IBooksRepository Books { get; }
+        IUnitRepository Units { get; }
 
         int Complete();
     }

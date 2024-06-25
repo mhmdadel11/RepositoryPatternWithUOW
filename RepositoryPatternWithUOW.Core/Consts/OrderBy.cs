@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RepositoryPatternWithUOW.Core.Consts
+﻿namespace App.Core.Consts
 {
     public static class OrderBy
     {
